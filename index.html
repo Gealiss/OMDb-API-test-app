@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>OMDb API app</title>
+        <script>
+            async function search(){
+                let title;
+                let year;
+                let USER_API_KEY;
+
+                if(document.getElementById('i_userApiKey').value != ''){
+                    USER_API_KEY = document.getElementById('i_userApiKey').value;
+                } else { return; }
+                if(document.getElementById('i_title').value != ''){
+                    title = document.getElementById('i_title').value;
+                } else { return; }
+                if(document.getElementById('i_year').value != ''){
+                    year = document.getElementById('i_year').value;
+                } else { return; }
+
+                let url = `http://www.omdbapi.com/?apikey=${USER_API_KEY}&t=${title}&y=${year}`
+                let response = await fetch(url);
+
+                if (response.ok) {
+                    let json = await response.json();
+                    let info = `
+                    <b>Title: ${json.Title}</b><br>
+                    <b>Actors: ${json.Actors}</b><br>
+                    <b>Director: ${json.Director}</b>
+                    <p>Plot: ${json.Plot}</p>
+                    <p>Released: ${json.Released}</p>
+                    <p>Runtime: ${json.Runtime}</p>
+                    <p>imdbRating: ${json.imdbRating}</p>
+                    `;
+                    document.getElementById('result_info').innerHTML = info;
+                } else {
+                    alert("Error HTTP: " + response.status);
+                }
+            }
+        </script>  
+    </head>
+
+    <body>
+        <h1>Search info about movie</h1>
+        <hr/>
+
+        <b>Your OMDb API key</b>
+        <input id="i_userApiKey" type="text">
+        <hr/>
+        <b>Title</b>
+        <input id="i_title" type="text">
+        <b>Year</b>
+        <input id="i_year" type="number">
+        <input id="searchButton" type="button" value="Search" onclick="search()">
+        <hr/>
+        <div id="result_info"></div>
+    </body>
+</html>
