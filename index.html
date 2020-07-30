@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>OMDb API app</title>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <script>
             async function search(){
                 let title;
@@ -17,7 +18,7 @@
                     year = document.getElementById('i_year').value;
                 } else { return; }
 
-                let url = `http://www.omdbapi.com/?apikey=${USER_API_KEY}&t=${title}&y=${year}`
+                let url = `https://www.omdbapi.com/?apikey=${USER_API_KEY}&t=${title}&y=${year}`
                 let response = await fetch(url);
 
                 if (response.ok) {
